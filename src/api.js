@@ -1,4 +1,29 @@
-// node server which will handle socket io connections
+
+const express = require("express");
+const serverless = require("serverless-http");
+
+const app = express();
+const router = express.Router();
+const http = require('http').createServer(app)
+const PORT = process.env.PORT || 3000
+router.get("/", (req, res) => {
+  res.json({
+    hello: "Listening on port ${PORT}"
+  });
+});
+
+app.use(`/.netlify/functions/api`, router);
+
+module.exports = app;
+module.exports.handler = serverless(app);
+
+
+
+
+
+
+
+/* node server which will handle socket io connections
 const express = require('express')
 const app = express()
 const http = require('http').createServer(app)
@@ -46,3 +71,5 @@ app.get('/', (req, res) => {
     });
  })
 app.use(`/.netlify/functions/api`, router);
+
+*/
