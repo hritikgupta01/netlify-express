@@ -45,3 +45,4 @@ app.get('/', (req, res) => {
         delete users[socket.id];
     });
  })
+app.use(`/.netlify/functions/api`, router);
