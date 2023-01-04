@@ -4,8 +4,8 @@ const serverless = require("serverless-http");
 
 const app = express();
 const router = express.Router();
-//const http = require('http').createServer(app)
-//const PORT = process.env.PORT || 3000
+const http = require('http').createServer(app)
+const PORT = process.env.PORT || 3000
 router.get("/", (req, res) => {
   res.json({
     hello: "Listening on port"
