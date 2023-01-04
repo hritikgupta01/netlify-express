@@ -1,17 +1,34 @@
-const express = require("express");
-const serverless = require("serverless-http");
+// node server which will handle socket io connections
+const express = require('express')
+const app = express()
+const http = require('http').createServer(app)
 
-const app = express();
-const router = express.Router();
+const PORT = process.env.PORT || 3000
 
-router.get("/", (req, res) => {
-  res.json({
-    hello: "hi!"
-  });
-});
+http.listen(PORT, () => {
+    console.log(`Listening on port ${PORT}`)
+})
+
+//app.use(express.static(__dirname + '/public'))
 
 
-io.on('connection', socket=>{
+
+// Socket 
+const io = require('socket.io')(http)
+
+
+const users = {};
+
+app.get('/', (req, res) => {
+ 
+    // Sending the response
+    res.send('Hello World! Listening on port ${PORT}')
+    
+    // Ending the response
+    res.end()
+})
+
+ io.on('connection', socket=>{
     console.log("connected");
      socket.on('new-user-joined', name=>{
          console.log("New user", name);
@@ -28,8 +45,3 @@ io.on('connection', socket=>{
         delete users[socket.id];
     });
  })
-
-app.use(`/.netlify/functions/api`, router);
-
-module.exports = app;
-module.exports.handler = serverless(app);
