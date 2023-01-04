@@ -6,12 +6,37 @@ const app = express();
 const router = express.Router();
 const http = require('http').createServer(app)
 const PORT = process.env.PORT || 3000
+
+const io = require('socket.io')(http)
+
+
+const users = {};
+
+
+
+ io.on('connection', socket=>{
+    console.log("connected");
+     socket.on('new-user-joined', name=>{
+         console.log("New user", name);
+         users[socket.id] = name;
+         socket.broadcast.emit('user-joined', name);
+     });
+
+     socket.on('send', message=>{
+         socket.broadcast.emit('receive', {message: message, name: users[socket.id]})
+     });
+
+     socket.on('disconnect', message=>{
+        socket.broadcast.emit('left', users[socket.id]);
+        delete users[socket.id];
+    });
+ })
+
 router.get("/", (req, res) => {
   res.json({
     hello: "Listening on ${PORT} hritik"
   });
 });
-
 app.use(`/.netlify/functions/api`, router);
 
 module.exports = app;
