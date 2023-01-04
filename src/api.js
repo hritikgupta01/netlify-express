@@ -8,7 +8,7 @@ const router = express.Router();
 //const PORT = process.env.PORT || 3000
 router.get("/", (req, res) => {
   res.json({
-    hello: "Listening on port ${PORT}"
+    hello: "Listening on port"
   });
 });
 
