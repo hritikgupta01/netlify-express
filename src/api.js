@@ -34,7 +34,7 @@ const users = {};
 
 router.get("/", (req, res) => {
   res.json({
-    hello: "Listening on ${PORT} hritik"
+    hello: "Listening on ${PORT} hritik123"
   });
 });
 app.use(`/.netlify/functions/api`, router);
